@@ -1,0 +1,24 @@
+[submodule "libs/OpenMesh"]
+	path = libs/OpenMesh
+	url = git@gitlab.vci.rwth-aachen.de:OpenMesh/OpenMesh.git
+[submodule "libs/clean-core"]
+	path = libs/clean-core
+	url = https://github.com/project-arcana/clean-core.git
+[submodule "libs/glfw"]
+	path = libs/glfw
+	url = https://github.com/glfw/glfw.git
+[submodule "libs/glow"]
+	path = libs/glow
+	url = git@gitlab.vci.rwth-aachen.de:Glow/glow.git
+[submodule "libs/glow-extras"]
+	path = libs/glow-extras
+	url = git@gitlab.vci.rwth-aachen.de:Glow/glow-extras.git
+[submodule "libs/polymesh"]
+	path = libs/polymesh
+	url = https://github.com/project-arcana/polymesh.git
+[submodule "libs/typed-geometry"]
+	path = libs/typed-geometry
+	url = https://github.com/project-arcana/typed-geometry.git
+[submodule "libs/imgui-lean"]
+	path = libs/imgui-lean
+	url = git@gitlab.vci.rwth-aachen.de:ptrettner/imgui-lean.git
