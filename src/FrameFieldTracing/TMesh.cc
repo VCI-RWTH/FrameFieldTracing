@@ -65,14 +65,14 @@ std::vector<OpenMesh::VertexHandle> list_vh_between_nodes(int cycle_index, OpenM
     return results;
 };
 
-void compute_t_mesh(OpenMesh::TriMesh _mesh, pm::Mesh& _tmesh, pm::vertex_attribute<tg::pos3>& _tmesh_pos)
+void compute_t_mesh(OpenMesh::TriMesh _mesh, pm::Mesh& _tmesh, pm::vertex_attribute<tg::pos3>& _tmesh_pos, double _angle_treshold)
 {
     OpenMesh::VPropHandleT<int> vp_index;
 
     _mesh.get_property_handle(vp_index, "DF_VP_idx");
 
     _tmesh_pos = _tmesh.vertices().make_attribute<tg::pos3>();
-    DiscreteMotorcycleTracer discreteTracer(_mesh, 0.02);
+    DiscreteMotorcycleTracer discreteTracer(_mesh, _angle_treshold);
     discreteTracer.generate();
 
     auto head_on_collisions = discreteTracer.get_head_on_collisions();
