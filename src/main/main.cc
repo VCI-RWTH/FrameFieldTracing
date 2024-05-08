@@ -136,32 +136,33 @@ struct TMesh
     pm::vertex_attribute<tg::pos3> pos;
 };
 
-int main()
+int main( int argc, char **argv)
 {
+    if (argc < 2)
+    {
+        std::cerr << "Usage: " << argv[0] << " infile [optional: angle_treshold]\n";
+        return 1;
+    }
+
+    std::cout << argv[1] << std::endl;
     glow::glfw::GlfwContext ctx;
     auto style = gv::config(gv::dark_ui, gv::no_grid, gv::no_outline, gv::background_color(tg::color3::white), gv::ssao_power(0.5f),
                             gv::shadow_screen_fadeout_distance(50.f), gv::no_shadow);
 
-    std::vector<OpenMesh::TriMesh> meshes(3);
-    read_mesh(meshes[0], DATA_PATH "/spot.om");
-    read_mesh(meshes[1], DATA_PATH "/fertility.om");
-    read_mesh(meshes[2], DATA_PATH "/rocker_arm.om");
+    OpenMesh::TriMesh mesh;
+    read_mesh(mesh, argv[1]);
 
-    std::vector<TMesh> tmeshes(meshes.size());
+    TMesh tmesh;
 
-    #pragma omp parallel for
-    for (int i = 0; i < meshes.size(); ++i)
-        compute_t_mesh(meshes[i], tmeshes[i].mesh, tmeshes[i].pos);
+    if (argc == 3)
+        compute_t_mesh(mesh, tmesh.mesh, tmesh.pos, std::stod(argv[2]));
+    else
+        compute_t_mesh(mesh, tmesh.mesh, tmesh.pos);
 
-    auto viewer = gv::grid();
-    for (int i = 0; i < meshes.size(); ++i)
-    {
-        pm::Mesh m;
-        auto pos = to_poly_mesh(meshes[i], m);
+    pm::Mesh m;
+    auto pos = to_poly_mesh(mesh, m);
 
-        auto c = gv::CameraController::create();
-        auto v = gv::view(gv::lines(tmeshes[i].pos).line_width_px(2.), tg::color3::red, c);
-        gv::view(pos);
-        gv::view(gv::lines(pos).line_width_px(.5));
-    }
+    auto v = gv::view(gv::lines(tmesh.pos).line_width_px(2.), tg::color3::red);
+    gv::view(pos);
+    gv::view(gv::lines(pos).line_width_px(.5));
 }
